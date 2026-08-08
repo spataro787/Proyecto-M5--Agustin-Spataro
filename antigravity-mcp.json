@@ -1,0 +1,88 @@
+{
+  "name": "github-mcp-server",
+  "description": "MCP server para manejar operaciones comunes de GitHub desde Antigravity.",
+  "version": "1.0.0",
+  "server": {
+    "url": "http://localhost:3000",
+    "healthEndpoint": "/health"
+  },
+  "tools": [
+    {
+      "name": "create_repository",
+      "description": "Crea un nuevo repositorio GitHub para el usuario autenticado.",
+      "endpoint": "/tool/create_repository",
+      "method": "POST",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "private": { "type": "boolean" }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "create_issue",
+      "description": "Abre un issue en un repositorio existente.",
+      "endpoint": "/tool/create_issue",
+      "method": "POST",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string" },
+          "repo": { "type": "string" },
+          "title": { "type": "string" },
+          "body": { "type": "string" }
+        },
+        "required": ["owner", "repo", "title"]
+      }
+    },
+    {
+      "name": "list_repositories",
+      "description": "Lista repositorios del usuario autenticado.",
+      "endpoint": "/tool/list_repositories",
+      "method": "POST",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "visibility": { "enum": ["all", "public", "private"] },
+          "affiliation": { "type": "string" }
+        }
+      }
+    },
+    {
+      "name": "create_commit",
+      "description": "Crea o actualiza un archivo en un repositorio y realiza un commit.",
+      "endpoint": "/tool/create_commit",
+      "method": "POST",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string" },
+          "repo": { "type": "string" },
+          "branch": { "type": "string" },
+          "path": { "type": "string" },
+          "message": { "type": "string" },
+          "content": { "type": "string" }
+        },
+        "required": ["owner", "repo", "branch", "path", "message", "content"]
+      }
+    },
+    {
+      "name": "list_issues",
+      "description": "Lista issues abiertos de un repositorio específico.",
+      "endpoint": "/tool/list_issues",
+      "method": "POST",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string" },
+          "repo": { "type": "string" },
+          "state": { "enum": ["open", "closed", "all"] }
+        },
+        "required": ["owner", "repo"]
+      }
+    }
+  ]
+}
